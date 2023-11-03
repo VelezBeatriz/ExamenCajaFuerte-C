@@ -103,21 +103,21 @@ function insertarMenu(dia){
                 <div class="card-body">
                     <h4 class="fw-bold">Primer Plato:</h4>
                         <ul>
-                        <li>${menu[dia]["Primer Plato"][0]}</li>
-                        <li>${menu[dia]["Primer Plato"][1]}</li>
-                        <li>${menu[dia]["Primer Plato"][2]}</li>
+                        <li class="primerplato palabra0">${menu[dia]["Primer Plato"][0]}</li>
+                        <li class="primerplato palabra1">${menu[dia]["Primer Plato"][1]}</li>
+                        <li class="primerplato palabra2">${menu[dia]["Primer Plato"][2]}</li>
                         </ul>
                     <h4 class="fw-bold">Segundo Plato:</h4>
                         <ul>
-                        <li>${menu[dia]["Segundo Plato"][0]}</li>
-                        <li>${menu[dia]["Segundo Plato"][1]}</li>
-                        <li>${menu[dia]["Segundo Plato"][2]}</li>
+                        <li class="segundoplato palabra0">${menu[dia]["Segundo Plato"][0]}</li>
+                        <li class="segundoplato palabra1">${menu[dia]["Segundo Plato"][1]}</li>
+                        <li class="segundoplato palabra2">${menu[dia]["Segundo Plato"][2]}</li>
                         </ul>
                     <h4 class="fw-bold">Postre:</h4>
                         <ul>
-                        <li>${menu[dia]["Postre"][0]}</li>
-                        <li>${menu[dia]["Postre"][1]}</li>
-                        <li>${menu[dia]["Postre"][2]}</li>
+                        <li  class="postre palabra0">${menu[dia]["Postre"][0]}</li>
+                        <li  class="postre palabra1">${menu[dia]["Postre"][1]}</li>
+                        <li  class="postre palabra2">${menu[dia]["Postre"][2]}</li>
                         </ul>
                 </div>
             </div>` 
@@ -150,22 +150,39 @@ const SearchButton = document.getElementById("SearchButton").addEventListener('c
 //Esta función recoge el valor de la palabra y la busca
 function buscarPalabra(event){
     event.preventDefault();
-    let anyWorld = document.getElementById("anyWorld").value
     //Eliminar espacios de delante y de atrás
-    anyWorld = anyWorld.trim(); 
+    let anyWorld = document.getElementById("anyWorld").value.trim(); 
 
     let TextMenu = document.getElementById("menu")
     let contentTextMenu = TextMenu.textContent //Extraer el contenido 
     // console.log(contentTextMenu)
 
-    let markText = contentTextMenu.replaceAll(
-        anyWorld,
-        "<mark class='bg-success'>" + anyWorld + "</mark>"
-      );
+    if(contentTextMenu.includes(anyWorld)){
 
-    //   const mark = (document.getElementById("menu").innerHTML = markText);
-    TextMenu.innerHTML = markText;
+      const platos = ["primerplato", "segundoplato", "postre"]
+
+      for (let i = 0; i < platos.length; i++) {
+              reemplazar(platos[i], anyWorld)
+      }
+ 
+    } else {
+      //La palabra no está presente
+      TextMenu.innerHTML = `<p>No se ha encontrado la palabra que buscas...</p>`
+    }
 }
+
+function reemplazar(plato, anyWorld){
+  for (let i = 0; i < 3; i++) {
+    let textList = document.querySelector(`.${plato}.palabra${i}`)
+    let textListContent = textList.textContent
+    let markText = textListContent.replaceAll(
+      anyWorld,
+      "<mark class='bg-success'>" + anyWorld + "</mark>"
+      )
+      textList.innerHTML = markText;
+  }
+}
+
 
 //Comprobación de dias festivos
 const timeTable = document.getElementById("timeTable")
@@ -205,7 +222,8 @@ function horario(){
             let diferencia
             let mensaje
             //Si la fecha de ahora es menor que la de apertura, es que estamos por abrir sino es que vamos a cerrar
-            if( diaActual < open ) {
+            if( diaActual < open) {
+              console.log(diaActual + " hora open" + open)
                 diferencia = (open - diaActual ) / 1000 //Convertir de milisegundos a segundos
                 // console.log(diferencia)
                 mensaje = "abrir el restaurante."
