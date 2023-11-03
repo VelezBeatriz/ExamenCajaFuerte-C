@@ -212,7 +212,7 @@ function horario(){
     const finalTime = document.getElementById("finalTime")
     
             //Extraer el día de hoy
-            const diaActual = new Date()
+            let diaActual = new Date()
 
            //Formatear el día de hoy y pero con las horas establecidas
             const open = new Date(diaActual.toDateString() + ' ' + openTime)
@@ -222,10 +222,11 @@ function horario(){
             let diferencia
             //Si la fecha de ahora es menor que la de apertura, es que estamos por abrir sino es que vamos a cerrar
             if( diaActual < open) {
-              console.log(diaActual + " hora open" + open)
                 diferencia = (open - diaActual ) / 1000 //Convertir de milisegundos a segundos
             } else {
-                diferencia = ( diaActual - open) / 1000 //Convertir de milisegundos a segundos
+                //La hora he de asumir que ya es la del dia siguiente
+                openNextDay = open.setDate(open.getDate() + 1)
+                diferencia = ( openNextDay - diaActual ) / 1000 //Convertir de milisegundos a segundos
             }
 
             const horas = Math.floor(diferencia/3600) //Convertir los segundos en horas y redondeamos
