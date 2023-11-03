@@ -220,16 +220,12 @@ function horario(){
             //console.log("Abre a las", open, "Cierra a las", close)
 
             let diferencia
-            let mensaje
             //Si la fecha de ahora es menor que la de apertura, es que estamos por abrir sino es que vamos a cerrar
             if( diaActual < open) {
               console.log(diaActual + " hora open" + open)
                 diferencia = (open - diaActual ) / 1000 //Convertir de milisegundos a segundos
-                // console.log(diferencia)
-                mensaje = "abrir el restaurante."
             } else {
-                diferencia = (close - diaActual ) / 1000 //Convertir de milisegundos a segundos
-                mensaje = "cerrar el restaurante."
+                diferencia = ( diaActual - open) / 1000 //Convertir de milisegundos a segundos
             }
 
             const horas = Math.floor(diferencia/3600) //Convertir los segundos en horas y redondeamos
@@ -243,7 +239,7 @@ function horario(){
             }
             openHour.innerHTML  = openTime
             closeHour.innerHTML = closeTime
-            finalTime.innerHTML = `${horas} horas y ${minutos} minutos para ${mensaje}`
+            finalTime.innerHTML = `${horas} horas y ${minutos} minutos paraabrir el restaurante`
 
 }
 
